@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Proyecto Final</title>
+</head>
+<body>
+    <h2>Visualizaciones de los deportistas por pais</h2>
+    <div id="vis-1"></div>
+    <div>
+        <h5>Mostrar Deporte</h5>
+        <select id="mostrar-by">
+            <option value="total_deportistas">Total Deportistas</option>
+        </select>
+    <div id="year-slider-container">
+        <label for="year-slider">Seleccionar Año:</label>
+        <input type="range" id="year-slider" min="1896" max="2016" step="2" value="1896">
+        <span id="selected-year">1896</span>
+         
+    </div>
+    <button id = "all-years">Mostrar todos los años</button>
+
+    <div id="tooltip_big" style="position: absolute; opacity: 0;"></div>
+    <div id="vis-2"></div>
+</body>
+<script src="http://d3js.org/d3.v7.min.js" charset="utf-8"></script>
+<script src="https://d3js.org/d3-geo-projection.v4.min.js"></script>
+<script src="dawdaw.js"></script>
+</html>
