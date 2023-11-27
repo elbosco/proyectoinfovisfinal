@@ -150,8 +150,9 @@ function crearMapa(datosMapas, datosDeportistas, seleccionado = "Total Deportist
         .style("border-color", "blue")
     
 
-    var mouseover = function(d) {
-    
+    var mouseover = function(event, d) {
+    // Aca comence usando logica de mi tarea 2 (Mateo Andrade) ocupada para mouseover
+    // Luego me di cuenta que no funcionaba, y me fui ayudando de chatgpt para que funcionara correctamente para este caso:
         contenedorMapa
             .selectAll("path")
             .style("opacity", .1)
@@ -164,7 +165,14 @@ function crearMapa(datosMapas, datosDeportistas, seleccionado = "Total Deportist
         tooltip
             .style("opacity", 1)
             .style("stroke-width", 0)
-
+        const pais = d.properties ? d.properties.ADMIN : "No disponible";
+        const cantidadDeportistas =
+            datosamostrar.find((dato) => dato.Team === pais)?.cantidad || "No disponible";
+        const [mouseX, mouseY] = d3.pointer(event);
+        tooltip
+            .style("left", mouseX + 20 + "px")
+            .style("top", mouseY + "px")
+            .html(pais + "<br>" + "Deportistas: " + cantidadDeportistas + "<br>" + "Edad deportista mas longevo: " + datosamostrar.find((dato) => dato.Team === pais)?.longevo + "<br>" + "Edad deportista mas joven: " + datosamostrar.find((dato) => dato.Team === pais)?.joven)
     }
 
     var mouseleave = function(d) {
@@ -178,18 +186,7 @@ function crearMapa(datosMapas, datosDeportistas, seleccionado = "Total Deportist
         tooltip
             .style("opacity", 0)
     }
-    // Aca comence usando logica de mi tarea 2 (Mateo Andrade) ocupada para mouseover (en este caso para mousemove)
-    // Luego me di cuenta que no funcionaba, y me fui ayudando de chatgpt para que funcionara correctamente para este caso:
-    var mousemove = function (event, d) {
-        const pais = d.properties ? d.properties.ADMIN : "No disponible";
-        const cantidadDeportistas =
-          datosamostrar.find((dato) => dato.Team === pais)?.cantidad || "No disponible";
-        const [mouseX, mouseY] = d3.pointer(event);
-        tooltip
-            .style("left", mouseX + 20 + "px")
-            .style("top", mouseY + "px")
-            .html(pais + "<br>" + "Deportistas: " + cantidadDeportistas + "<br>" + "Edad deportista mas longevo: " + datosamostrar.find((dato) => dato.Team === pais)?.longevo + "<br>" + "Edad deportista mas joven: " + datosamostrar.find((dato) => dato.Team === pais)?.joven)
-    };
+
     // Este es mi codigo original (tambien ocupe un poco de ayuda de ChatGPT para ocupar el datajoin (.data().enter().exit().remove()), pero como creí que no cumplia con el pedido del data join, lo cambie por el que esta mas abajo con ayuda de ChatGPT 
     // contenedorMapa                                                                  
     //   .selectAll("path")                                                            
@@ -234,7 +231,6 @@ function crearMapa(datosMapas, datosDeportistas, seleccionado = "Total Deportist
             .style("stroke-width", 0.3)
             .on("mouseover", mouseover)
             .on("mouseleave", mouseleave)
-            .on("mousemove", (event, d) => mousemove(event, d))
             .on("click", function (event, d) { crearNodo(datosDeportistas, d.properties.ADMIN) });
     }
 
