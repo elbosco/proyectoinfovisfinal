@@ -79,6 +79,7 @@ function crearMapa(datosMapas, datosDeportistas, seleccionado = "Total Deportist
     }).flat();
 
 
+
     const datosamostrar = (seleccionado === "Total Deportistas") ? datosDeporte : datosDeporte.filter(d => d.Sport === seleccionado)
 
     const maxCantidad = d3.max(datosamostrar, d => +d.cantidad);
@@ -248,7 +249,7 @@ function crearMapa(datosMapas, datosDeportistas, seleccionado = "Total Deportist
             .on("mouseover", mouseover)
             .on("mouseleave", mouseleave)
             .on("mousemove", (event, d) => mousemove(event, d))
-            .on("click", function (event, d) { console.log(d.properties.ADMIN) });
+            .on("click", function (event, d) { crearNodo(datosvis2, d.properties.ADMIN) });
     }
 
     updateMapa();
@@ -282,59 +283,75 @@ function crearNodo(datosDeportistas, seleccionado) {
     console.log(deportes.includes(seleccionado))
     console.log(seleccionado)
     // condicionales ayudandome poco a poco con ChatGPT
-    if (seleccionado in deportes) {
-
-        var datosDeportistasPaises = Array.from(d3.group(datosDeportistas.filter(d => d.Sport === seleccionado), d => d.Team), ([Team, datos]) => ({
-            Team,
-            amount: datos.length,
-            peso_promedio: d3.mean(datos, d => +d.Weight),
-            altura_promedio: d3.mean(datos, d => +d.Height),
-            peso_total: d3.sum(datos, d => +d.Weight),
-        })) 
+    if (deportes.includes(seleccionado)) {
+        const datosAgrupados = d3.group(datosDeportistas, d => d.Team, d => d.Sport);
+        datosDeporte = Array.from(datosAgrupados, ([Team, deportesMap]) => {
+            return Array.from(deportesMap, ([Sport, datos]) => ({
+                Team,
+                Sport,
+                cantidad: datos.length,
+                longevo: d3.max(datos, d => +d.Age),
+                joven: d3.min(datos, d => +d.Age),
+            }))
+        }).flat();
+        var datosDeportistasPaises = datosDeporte.filter(d => d.Sport === seleccionado)
         
     }
     else if (seleccionado === "Total Deportistas") { 
-        var datosDeportistasPaises = Array.from(d3.group(datosDeportistas, d => d.Team), ([Team, datos]) => ({
+        const datosAgrupados = d3.group(datosDeportistas, d => d.Team);
+        datosDeporte = Array.from(datosAgrupados, ([Team, datos]) => ({
             Team,
-            amount: datos.length,
-            peso_promedio: d3.mean(datos, d => +d.Weight),
-            altura_promedio: d3.mean(datos, d => +d.Height),
-            peso_total: d3.sum(datos, d => +d.Weight),
+            cantidad: datos.length,
+            longevo: d3.max(datos, d => +d.Age),
+            joven: d3.min(datos, d => +d.Age),
         }))
+        var datosDeportistasPaises = datosDeporte
     }
-    else if (seleccionado in paises) {
-        var datosDeportistasPaises = Array.from(d3.group(datosDeportistas.filter(d => d.Team === seleccionado), d => d.Team), ([Team, datos]) => ({
-            Team,
-            amount: datos.length,
-            peso_promedio: d3.mean(datos, d => +d.Weight),
-            altura_promedio: d3.mean(datos, d => +d.Height),
-            peso_total: d3.sum(datos, d => +d.Weight),
-        }))
+    else if (paises.includes(seleccionado)) {
+        //mostraremos solo los deportes de ese pais
+        const datosAgrupados = d3.group(datosDeportistas, d => d.Team, d => d.Sport);
+        datosDeporte = Array.from(datosAgrupados, ([Team, deportesMap]) => {
+            return Array.from(deportesMap, ([Sport, datos]) => ({
+                Team,
+                Sport,
+                cantidad: datos.length,
+                longevo: d3.max(datos, d => +d.Age),
+                joven: d3.min(datos, d => +d.Age),
+            }))
+        }).flat();
+        var datosDeportistasPaises = datosDeporte.filter(d => d.Team === seleccionado)
     }
     else if (seleccionado in selecciones) {
         if (seleccionado = 'peso_promedio') {
-            var datosDeportistasPaises = Array.from(d3.group(datosDeportistas, d => d.Team), ([Team, datos]) => ({
+            const datosAgrupados = d3.group(datosDeportistas, d => d.Team);
+            datosDeporte = Array.from(datosAgrupados, ([Team, datos]) => ({
                 Team,
-                amount: d3.mean(datos, d => +d.Weight),
-                altura_promedio: d3.mean(datos, d => +d.Height),
-                peso_total: d3.sum(datos, d => +d.Weight),
+                longevo: d3.max(datos, d => +d.Age),
+                joven: d3.min(datos, d => +d.Age),
+                cantidad: d3.mean(datos, d => +d.Weight),
             }))
+            var datosDeportistasPaises = datosDeporte
         }
         else if (seleccionado = 'altura_promedio') {
-            var datosDeportistasPaises = Array.from(d3.group(datosDeportistas, d => d.Team), ([Team, datos]) => ({
+            const datosAgrupados = d3.group(datosDeportistas, d => d.Team);
+            datosDeporte = Array.from(datosAgrupados, ([Team, datos]) => ({
                 Team,
-                amount: d3.mean(datos, d => +d.Height),
-                peso_promedio: d3.mean(datos, d => +d.Weight),
-                peso_total: d3.sum(datos, d => +d.Weight),
+                longevo: d3.max(datos, d => +d.Age),
+                joven: d3.min(datos, d => +d.Age),
+                cantidad: d3.mean(datos, d => +d.Height),
             }))
+            var datosDeportistasPaises = datosDeporte
         }
         else if (seleccionado = 'peso_total') {
-            var datosDeportistasPaises = Array.from(d3.group(datosDeportistas, d => d.Team), ([Team, datos]) => ({
+            const datosAgrupados = d3.group(datosDeportistas, d => d.Team);
+            datosDeporte = Array.from(datosAgrupados, ([Team, datos]) => ({
                 Team,
-                amount: d3.sum(datos, d => +d.Weight),
-                peso_promedio: d3.mean(datos, d => +d.Weight),
-                altura_promedio: d3.mean(datos, d => +d.Height),
-            })) }}
+                longevo: d3.max(datos, d => +d.Age),
+                joven: d3.min(datos, d => +d.Age),
+                cantidad: d3.sum(datos, d => +d.Weight),
+            }))
+            var datosDeportistasPaises = datosDeporte
+        }
     console.log("hola")
     console.log(datosDeportistasPaises)
     function onchange() {
