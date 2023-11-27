@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Proyecto</title>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Informe Proyecto</h1>
+        <p><i>Template</i> base confeccionar el informe. Se puede
+            modificar el estilo si así lo desean, pero se recomienda
+            mantener las secciones separadas para facilitar la corrección del informe.</p>
+
+        <div class="response">
+            <h3>Integrantes</h2>
+                <p>Mateo Andrade</p>
+                <p>Vicente Aravena</p>
+        </div>
+
+        <div class="case">
+            <h2>Situación de dominio</h2>
+            <div class="response">
+                <h4>Contexto de la situación y la naturaleza de los datos</h4>
+                <!-- Puedes agregar los P que sean necesarios -->
+                <h4>Respuesta:</h4>
+                <p> En un mundo tan deportivo y competitivo como el de hoy, sobre todo en Chile y gracias a los recientes Juegos Panamericanos y Parapanamericanos, decidimos hacer una visualización que nos permita conocer un poco más los datos sobre los deportistas de alto rendimiento como lo son los olimpistas. Para esto creamos una herramienta que nos permite conocer un poco más sobre la cultura olímpica de cada país, la cantidad de participaciones en cada año por país y por deporte, conocer el peso total de una federación, el peso promedio, la estatura promedio, la edad del deportista más longevo, la edad del deportista más joven, los deportistas totales históricos de cada país y por deporte. 
+                    El Dataset original contiene el peso de cada jugador, la estatura, el año en que participó y el deporte en el que participó. Cabe mencionar que en el trabajo no medimos cantidad de participantes si no participaciones, es decir puede haber un deportista que ha participado en varios deportes.
+                    El archivo countries.geojson, nos sirve para poder usar el mapa de coropletas.                    
+                </p>
+            </div>
+            <div class="response">
+                <h4>Fuente original de los datos</h4>
+                <!-- Puedes agregar los P que sean necesarios -->
+                <h4>Respuesta:</h4>
+                <p>La fuente de los datos procesados fue prevista por El Profesor Hernan Valdivieso en el siguiente <a href="https://docs.google.com/spreadsheets/d/1Alt45JvXWcAmx-C7aVCrl0hKHHwDC6D0/edit#gid=1285693786">spreadsheet</a> y la fuente original de los datos está contenida en el siguiente <a href="https://www.kaggle.com/datasets/heesoo37/120-years-of-olympic-history-athletes-and-results">enlace</a>. Gracias a un algoritmo de javascript (con ayuda de ChatGPT) pudimos procesar los datos en tiempo real dependiendo de la selección que elegía la persona. Por ejemplo, si estamos en la visualización del mapa y la persona coloca el año 2016 y el deporte Esgrima, se filtrará el csv original y se seleccionarán los deportistas del año 2016, se filtrará por deporte, y luego se agrupa por país, deporte, y cantidad de deportistas totales de ese país en ese deporte. Luego, se mostrará un mapa de coropleta donde el color depende de la cantidad de deportistas. También se modifica el circular packing con los filtros colocados.
+                    También ocupamos el GeoJSON brindado en la ayudantía 9.
+                    </p>
+            </div>
+            <div class="response">
+                <h4>Usuario objetivo</h4>
+                <!-- Puedes agregar los P que sean necesarios -->
+                <h4>Respuesta:</h4>
+                <p>Todo usuario que quiera conocer un poco más de la participación de su país en los distintos juegos olímpicos y los demás países.</p>
+            </div>
+            <div class="response">
+                <h4>Uso de la herramienta</h4>
+                <!-- Puedes agregar los P que sean necesarios -->
+                <h4>Respuesta:</h4>
+                <p>El usuario que esté interesado en las distintas participaciones de su país en los juegos olímpicos puede conocer un poco más sobre la cantidad de participaciones de los deportistas de su país en determinado año y en determinado deporte usando los distintos filtros y visualizando el mapa de coropleta generado. También, puede ver las participaciones totales acumuladas durante todos los años y las participaciones totales acumuladas de todos los deportes con un nuevo mapa. Con el Circular Packing, puede también visualizar los distintos datos expresados anteriormente, pero de una manera más gráfica, visualizando la diferencia en los tamaños de los círculos. Además, con esta herramienta se puede conocer el peso total, el peso promedio y la estatura promedio de los distintos países en los distintos deportes. </p>
+            </div>
+
+        </div>
+
+        <div class="case">
+            <h2>Abstracción de datos</h2>
+            <div class="response">
+                <h4>Tipos de datos a utilizar en el proyecto</h4>
+                <!-- Puedes agregar los P que sean necesarios -->
+                <h4>Respuesta:</h4>
+                <p>Cuando iniciamos la página se le brinda al código los datos en formato de framework csv con columnas y filas. Cada fila pertenece a un participante de los juegos, luego cuando se cargan los datos y/o se aplica un filtro, se trabaja los datos en formato array, donde cada posición es un diccionario con los datos filtrados. En el csv original cada fila es un ítem y cada columna es un atributo, los cuales no están enlazados pero cada deportista tiene un Id, y las posiciones fueron procesadas por la fuente original de los datos (Es decir, gracias al profesor Hernan). En el array cada posición es un ítem y los atributos son las llaves de cada ítem, y la posición está definida por el primer país que aparece en el csv filtrado por las funciones planteadas. El GeoJSON está en formato diccionario, donde la posición es irrelevante ya que se trabaja con llaves, están enlazados a través de diccionarios en diccionarios, la llave principal con la que estaremos trabajando es properties.ADMIN y las coordenadas. La llave Features contiene una lista y dentro de esta lista los diccionarios de cada país, cada posición en la lista es un diccionario que le pertenece a un país determinado.</p>
+            </div>
+            <div class="response">
+                <h4>Tipos de atributos presente en los datos</h4>
+                <!-- Puedes agregar los P que sean necesarios -->
+                <h4>Respuesta:</h4>
+                <p>En los ítems del csv brindados, tenemos que país y deporte serían datos categóricos, mientras que Id y año de participación , son datos numéricos, y en el caso de año de participación se puede volver categórico ya que filtramos por año. Peso, altura y edad son datos cuantitativos. 
+                    Cuando modificamos el array y agregamos los atributos (cantidad de jugadores, peso total, peso promedio, altura promedio), estos son datos cuantitativos, al igual que cuando agregamos olimpista más longevo y más joven. 
+                    En el GeoJSON, son todos datos Categóricos y las coordenadas son numéricas.
+                    </p>
+            </div>
+        </div>
+
+        <div class="case">
+            <h2>Abstracción de tareas</h2>
+            <div class="response">
+                <h4>Tarea 1 (acción + objetivo) + justificación según el dominio presentado</h4>
+                <p class="hint">
+                    No olvides que las acciones son: presentar, descubrir, anotar, producir, grabar, localizar, ubicar,
+                    navegar, explorar, identificar, comparar o resumir. Luego, los objetivos son posibles aspectos de
+                    los datos a observar. Como: distribución, proporción, valor, correlación, tendencia, outlier,
+                    feature, caminos, topología, extremos, entre otros.
+                </p>
+
+                <!-- Puedes agregar los P que sean necesarios -->
+                <h4>Acción: Descubrir</h4>
+                <h4>Objetivo: Distribución</h4>
+                <p>Justificar la acción-objetivo con el dominio presentado:  Podemos ver la distribución de deportistas en cada país con la paleta de color azul, donde el país con el color más oscuro tiene más deportistas y el más claro tiene menos deportistas. La acción que esperamos del usuario es que el usuario pueda visualizar la distribucion de los distintos países por deportistas y pueda descubrir datos sobre un determinado país. </p>
+            </div>
+            <div class="response">
+                <h4>Tarea 2 (acción + objetivo) + justificación según el dominio presentado</h4>
+                <p class="hint">
+                    No olvides que las acciones son: presentar, descubrir, anotar, producir, grabar, localizar, ubicar,
+                    navegar, explorar, identificar, comparar o resumir. Luego, los objetivos son posibles aspectos de
+                    los datos a observar. Como: distribución, proporción, valor, correlación, tendencia, outlier,
+                    feature, caminos, topología, extremos, entre otros.
+                </p>
+
+                <!-- Puedes agregar los P que sean necesarios -->
+                <h4>Acción: Comparar</h4>
+                <h4>Objetivo: Proporción</h4>
+                <p>Justificar la acción-objetivo con el dominio presentado:  Podemos ver las distintas proporciones y hacer una comparación de los círculos donde sus tamaños cambian dependiendo del filtro, por ejemplo, altura promedio, peso total, peso promedio, y al igual que el mapa también cambia dependiendo del filtro de deporte y año seleccionado. </p>
+            </div>
+            <div class="response">
+                <h4>Tarea 3 (acción + objetivo) + justificación según el dominio presentado</h4>
+                <p class="hint">
+                    No olvides que las acciones son: presentar, descubrir, anotar, producir, grabar, localizar, ubicar,
+                    navegar, explorar, identificar, comparar o resumir. Luego, los objetivos son posibles aspectos de
+                    los datos a observar. Como: distribución, proporción, valor, correlación, tendencia, outlier,
+                    feature, caminos, topología, extremos, entre otros.
+                </p>
+
+                <!-- Puedes agregar los P que sean necesarios -->
+                <h4>Acción: [una palabra]</h4>
+                <h4>Objetivo: [una palabra]</h4>
+                <p>Justificar la acción-objetivo con el dominio presentado: </p>
+            </div>
+        </div>
+
+        <div class="case">
+            <h2>Codificación visual e interacciones</h2>
+            <div class="response">
+                <h4>Decisiones de diseño relacionadas a la primera tarea visual</h4>
+                <!-- Puedes agregar los P que sean necesarios -->
+                <h4>Respuesta:</h4>
+                <p>Para la primera visualización se ocupó un zoom para ver más de cerca los países y poder pasar el mouse por encima para mostrar información sobre el país, ya sea cantidad de deportistas, jugador más joven y jugador más longevo. Por otro lado, el filtro de información para reducir y ver otro tipo de información, es elegir el año y elegir el deporte específico a visualizar en el mapa. Cuando se hace click a un país se gatilla la segunda visualización mostrando en círculos, donde cada círculo es un deporte y el tamaño de cada círculo depende de la cantidad de deportistas del país seleccionado en ese deporte. El código implementa un datajoin gracias a la ayuda de ChatGPT. Esta visualización es un mapa de Coropleta.</p>
+            </div>
+            <div class="response">
+                <h4>Decisiones de diseño relacionadas a la segunda tarea visual</h4>
+                <!-- Puedes agregar los P que sean necesarios -->
+                <h4>Respuesta:</h4>
+                <p>La segunda visualización también posee un zoom para ver más de cerca los círculos interiores o los círculos más pequeños, la visualización posee un data join que se actualiza con el filtro o los filtros seleccionados. Usa varios filtros, además de los mencionados en la primera visualización como, por ejemplo, altura promedio, peso promedio y peso total. Si se selecciona un filtro que también afecta a la visualización 1, es decir, el filtro de deporte y año, ambas visualizaciones se ven afectadas. Se puede ver información adicional de un ítem si pasa el mouse por encima y se despliega un tooltip. Esta visualización es un circular packing.</p>
+            </div>
+            <div class="response">
+                <h4>Decisiones de diseño relacionadas a la tercera tarea visual</h4>
+                <!-- Puedes agregar los P que sean necesarios -->
+                <h4>Respuesta:</h4>
+                <p>Modifica solo este texto (no el de arriba) para poner tu respuesta</p>
+            </div>
+        </div>
+
+        <div class="case">
+            <h3>
+                <a href="#">Enlace para acceder a la visualización</a>
+            </h3>
+        </div>
+
+</body>
+
+</html>
