@@ -401,7 +401,7 @@ function crearNodo(datosDeportistas, seleccionado) {
 
     //crear tooltip (para nodos grandes)
 
-    var tooltip_big = d3.select("#tooltip")
+    var tooltip_big = d3.select("#tooltip_big")
         .style("background", "white")
         .style("border", "solid")
         .style("border-width", "1px")
@@ -417,13 +417,13 @@ function crearNodo(datosDeportistas, seleccionado) {
         .attr("stroke", "#69a2b2")
         .style("stroke-width", 4)
         .on("mouseover", function(event, d) {
-            tooltip_big.style("visibility", "visible")
+            tooltip_big.style("opacity", 1)
             .style("left", (event.pageX + 10) + "px")
             .style("top", (event.pageY - 10) + "px")
             .html(d.Team + "<br>" + d.cantidad + " deportistas");
         })
         .on("mouseout", function(d) {
-            tooltip_big.style("visibility", "hidden");
+            tooltip_big.style("opacity", 0);
         });
 
     // crear tooltip (para circulos pequeños dentro de los nodos grandes)
