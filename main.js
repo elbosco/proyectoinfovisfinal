@@ -351,7 +351,7 @@ function crearNodo(datosDeportistas, seleccionado) {
                 cantidad: d3.sum(datos, d => +d.Weight),
             }))
             var datosDeportistasPaises = datosDeporte
-        }
+        }}
     console.log("hola")
     console.log(datosDeportistasPaises)
     function onchange() {
