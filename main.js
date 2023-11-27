@@ -321,7 +321,7 @@ function crearNodo(datosDeportistas, seleccionado) {
         }).flat();
         var datosDeportistasPaises = datosDeporte.filter(d => d.Team === seleccionado)
     }
-    else if (seleccionado in selecciones) {
+    else if (selecciones.includes(seleccionado)) {
         if (seleccionado = 'peso_promedio') {
             const datosAgrupados = d3.group(datosDeportistas, d => d.Team);
             datosDeporte = Array.from(datosAgrupados, ([Team, datos]) => ({
