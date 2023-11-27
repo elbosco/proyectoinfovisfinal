@@ -65,20 +65,6 @@ function crearMapa(datosMapas, datosDeportistas, seleccionado = "Total Deportist
             joven: d3.min(datos, d => +d.Age),
         }))
     }
-    //datos para mostrar la vis 2
-
-    const datosvis2 = d3.group(datosDeportistasYear, d => d.Team, d => d.Sport);
-    datosvis2array = Array.from(datosvis2, ([Team, deportesMap]) => {
-        return Array.from(deportesMap, ([Sport, datos]) => ({
-            Team,
-            Sport,
-            cantidad: datos.length,
-            longevo: d3.max(datos, d => +d.Age),
-            joven: d3.min(datos, d => +d.Age),
-        }))
-    }).flat();
-
-
 
     const datosamostrar = (seleccionado === "Total Deportistas") ? datosDeporte : datosDeporte.filter(d => d.Sport === seleccionado)
 
@@ -249,7 +235,7 @@ function crearMapa(datosMapas, datosDeportistas, seleccionado = "Total Deportist
             .on("mouseover", mouseover)
             .on("mouseleave", mouseleave)
             .on("mousemove", (event, d) => mousemove(event, d))
-            .on("click", function (event, d) { crearNodo(datosvis2, d.properties.ADMIN) });
+            .on("click", function (event, d) { crearNodo(datosDeportistas, d.properties.ADMIN) });
     }
 
     updateMapa();
@@ -292,6 +278,11 @@ function crearNodo(datosDeportistas, seleccionado) {
                 cantidad: datos.length,
                 longevo: d3.max(datos, d => +d.Age),
                 joven: d3.min(datos, d => +d.Age),
+                dato_crack_cantidad_deportistas : datos.length,
+                dato_crack_altura_promedio : d3.mean(datos, d => +d.Height),
+                dato_crack_peso_promedio : d3.mean(datos, d => +d.Weight),
+                dato_crack_peso_total : d3.sum(datos, d => +d.Weight),
+
             }))
         }).flat();
         var datosDeportistasPaises = datosDeporte.filter(d => d.Sport === seleccionado)
@@ -304,6 +295,11 @@ function crearNodo(datosDeportistas, seleccionado) {
             cantidad: datos.length,
             longevo: d3.max(datos, d => +d.Age),
             joven: d3.min(datos, d => +d.Age),
+            dato_crack_cantidad_deportistas : datos.length,
+            dato_crack_altura_promedio : d3.mean(datos, d => +d.Height),
+            dato_crack_peso_promedio : d3.mean(datos, d => +d.Weight),
+            dato_crack_peso_total : d3.sum(datos, d => +d.Weight),
+
         }))
         var datosDeportistasPaises = datosDeporte
     }
@@ -317,6 +313,12 @@ function crearNodo(datosDeportistas, seleccionado) {
                 cantidad: datos.length,
                 longevo: d3.max(datos, d => +d.Age),
                 joven: d3.min(datos, d => +d.Age),
+                dato_crack_cantidad_deportistas : datos.length,
+                dato_crack_altura_promedio : d3.mean(datos, d => +d.Height),
+                dato_crack_peso_promedio : d3.mean(datos, d => +d.Weight),
+                dato_crack_peso_total : d3.sum(datos, d => +d.Weight),
+
+
             }))
         }).flat();
         var datosDeportistasPaises = datosDeporte.filter(d => d.Team === seleccionado)
@@ -329,6 +331,11 @@ function crearNodo(datosDeportistas, seleccionado) {
                 longevo: d3.max(datos, d => +d.Age),
                 joven: d3.min(datos, d => +d.Age),
                 cantidad: d3.mean(datos, d => +d.Weight),
+                dato_crack_cantidad_deportistas : datos.length,
+                dato_crack_altura_promedio : d3.mean(datos, d => +d.Height),
+                dato_crack_peso_promedio : d3.mean(datos, d => +d.Weight),
+                dato_crack_peso_total : d3.sum(datos, d => +d.Weight),
+
             }))
             var datosDeportistasPaises = datosDeporte
         }
@@ -339,6 +346,11 @@ function crearNodo(datosDeportistas, seleccionado) {
                 longevo: d3.max(datos, d => +d.Age),
                 joven: d3.min(datos, d => +d.Age),
                 cantidad: d3.mean(datos, d => +d.Height),
+                dato_crack_cantidad_deportistas : datos.length,
+                dato_crack_altura_promedio : d3.mean(datos, d => +d.Height),
+                dato_crack_peso_promedio : d3.mean(datos, d => +d.Weight),
+                dato_crack_peso_total : d3.sum(datos, d => +d.Weight),
+
             }))
             var datosDeportistasPaises = datosDeporte
         }
@@ -349,6 +361,11 @@ function crearNodo(datosDeportistas, seleccionado) {
                 longevo: d3.max(datos, d => +d.Age),
                 joven: d3.min(datos, d => +d.Age),
                 cantidad: d3.sum(datos, d => +d.Weight),
+                dato_crack_cantidad_deportistas : datos.length,
+                dato_crack_altura_promedio : d3.mean(datos, d => +d.Height),
+                dato_crack_peso_promedio : d3.mean(datos, d => +d.Weight),
+                dato_crack_peso_total : d3.sum(datos, d => +d.Weight),
+
             }))
             var datosDeportistasPaises = datosDeporte
         }}
